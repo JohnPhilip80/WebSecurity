@@ -19,3 +19,12 @@ CREATE TABLE sessions (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
+
+INSERT INTO db_bank.users (login_name,login_password) VALUES ('JohnPhilip','john');
+INSERT INTO db_bank.users (login_name,login_password) VALUES ('BalaMurugan','bala');
+INSERT INTO db_bank.users (login_name,login_password) VALUES ('DonyFranklin','dony');
+INSERT INTO db_bank.users (login_name,login_password) VALUES ('Rajesh','rajesh');
+INSERT INTO db_bank.users (login_name,login_password) VALUES ('Saraswathy','sara');
+INSERT INTO db_bank.users (login_name,login_password) VALUES ('Subashini','suba');	
+INSERT INTO db_bank.users (login_name,login_password) VALUES ('Nikhila','niki');
+INSERT INTO db_bank.users (login_name,login_password) VALUES ('AshishYadav','ashish');
