@@ -1,0 +1,8 @@
+{% extends 'appBase.html' %}
+{% block title %}CCA Bank - Home{% endblock %}
+{% block content %}
+    <h1 class="text-center">Welcome to CCA Bank</h1>
+    <div style="display: flex; justify-content: center; align-items: center; height: 400px;">
+        <img src="{{ url_for('static', filename='images/CCABank.jpg') }}" alt="CCA Bank">
+    </div>
+{% endblock %}

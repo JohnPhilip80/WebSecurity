@@ -1,0 +1,14 @@
+{% extends 'appBase.html' %}
+{% block title %}CCA Bank - Login{% endblock %}
+{% block content %}
+    <h1 class="text-center">Login</h1>
+    <div class="container mt-5">
+        <div class="card" style="padding: 20px;">
+            <form action="Login" method="post">
+                <input type="text" class="form-control mb-3" name="userName" placeholder="Enter User Name">
+                <input type="password" class="form-control mb-3" name="password" placeholder="Enter Password">
+                <input type="submit" class="btn btn-outline-primary form-control rounded-0" value="Login">
+            </form>
+        </div>
+    </div>
+{% endblock %}
