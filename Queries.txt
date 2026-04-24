@@ -1,12 +1,11 @@
-use db_bank;
-
+use db_cca_bank;
 CREATE TABLE users (
 	user_id BIGINT PRIMARY KEY AUTO_INCREMENT, 
     login_name VARCHAR(40),
     login_password VARCHAR(40)
 );
 
-CREATE TABLE accounts (
+CREATE TABLE user_accounts (
 	account_no BIGINT PRIMARY KEY AUTO_INCREMENT, 
     user_id BIGINT, 
     balance_amount DECIMAL(10,2),
@@ -20,32 +19,98 @@ CREATE TABLE sessions (
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
+CREATE TABLE roles (
+	role_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+	role_name VARCHAR(30)
+);
+
+CREATE TABLE user_role (
+	id BIGINT PRIMARY KEY AUTO_INCREMENT,
+	user_id BIGINT,
+	role_id BIGINT,
+	FOREIGN KEY (user_id) REFERENCES users(user_id),
+	FOREIGN KEY (role_id) REFERENCES roles(role_id)
+);
+
+CREATE TABLE bank_accounts(
+	id BIGINT PRIMARY KEY AUTO_INCREMENT,
+	type_name VARCHAR(30),
+	rate_of_interest DECIMAL(10,2),
+	year_launched INT
+);
+
 CREATE TABLE csrf_tokens (
     token VARCHAR(100) PRIMARY KEY,
     session_id VARCHAR(100),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY(session_id) REFERENCES sessions(session_id)
 );
+
 CREATE TABLE user_comments(
 	id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(100),
     comment VARCHAR(1000)
-    );
-  
-  INSERT INTO users (login_name,login_password) VALUES ('JohnPhilip','john');
-  INSERT INTO users (login_name,login_password) VALUES ('BalaMurugan','bala');
-  INSERT INTO users (login_name,login_password) VALUES ('DonyFranklin','dony');
-  INSERT INTO users (login_name,login_password) VALUES ('Rajesh','rajesh');
-  INSERT INTO users (login_name,login_password) VALUES ('Saraswathy','sara');
-  INSERT INTO users (login_name,login_password) VALUES ('Subashini','suba');
-  INSERT INTO users (login_name,login_password) VALUES ('Nikhila','niki');
-  
-  INSERT INTO accounts(user_id,balance_amount) VALUES (1,68000.00);
-  INSERT INTO accounts(user_id,balance_amount) VALUES (2,69000.00);
-  INSERT INTO accounts(user_id,balance_amount) VALUES (3,41000.00);
-  INSERT INTO accounts(user_id,balance_amount) VALUES (4,63000.00);
-  INSERT INTO accounts(user_id,balance_amount) VALUES (5,72000.00);
-  INSERT INTO accounts(user_id,balance_amount) VALUES (6,53000.00);
-  INSERT INTO accounts(user_id,balance_amount) VALUES (7,30000.00);
-  
-    
+);
+
+INSERT INTO roles (role_name) VALUES ('ROLE_ADMIN');
+INSERT INTO roles (role_name) VALUES ('ROLE_CUSTOMER');
+
+INSERT INTO users (login_name,login_password) VALUES ('JohnPhilip','john');
+INSERT INTO users (login_name,login_password) VALUES ('BalaMurugan','bala');
+INSERT INTO users (login_name,login_password) VALUES ('DonyFranklin','dony');
+INSERT INTO users (login_name,login_password) VALUES ('Rajesh','rajesh');
+INSERT INTO users (login_name,login_password) VALUES ('Saraswathy','sara');
+INSERT INTO users (login_name,login_password) VALUES ('Subashini','suba');
+INSERT INTO users (login_name,login_password) VALUES ('Nikhila','niki');
+
+INSERT INTO user_role (user_id,role_id) SELECT 
+	(SELECT user_id FROM users WHERE login_name = 'JohnPhilip'),
+	(SELECT role_id FROM roles WHERE role_name = 'ROLE_ADMIN');
+INSERT INTO user_role (user_id,role_id) SELECT 
+	(SELECT user_id FROM users WHERE login_name = 'BalaMurugan'),
+	(SELECT role_id FROM roles WHERE role_name = 'ROLE_CUSTOMER');
+INSERT INTO user_role (user_id,role_id) SELECT 
+	(SELECT user_id FROM users WHERE login_name = 'DonyFranklin'),
+	(SELECT role_id FROM roles WHERE role_name = 'ROLE_CUSTOMER');
+INSERT INTO user_role (user_id,role_id) SELECT 
+	(SELECT user_id FROM users WHERE login_name = 'Rajesh'),
+	(SELECT role_id FROM roles WHERE role_name = 'ROLE_CUSTOMER');
+INSERT INTO user_role (user_id,role_id) SELECT 
+	(SELECT user_id FROM users WHERE login_name = 'Saraswathy'),
+	(SELECT role_id FROM roles WHERE role_name = 'ROLE_CUSTOMER');
+INSERT INTO user_role (user_id,role_id) SELECT 
+	(SELECT user_id FROM users WHERE login_name = 'Subashini'),
+	(SELECT role_id FROM roles WHERE role_name = 'ROLE_CUSTOMER');
+INSERT INTO user_role (user_id,role_id) SELECT 
+	(SELECT user_id FROM users WHERE login_name = 'Nikhila'),
+	(SELECT role_id FROM roles WHERE role_name = 'ROLE_CUSTOMER');
+
+INSERT INTO user_accounts(user_id,balance_amount) SELECT
+	(SELECT user_id FROM users WHERE login_name = 'JohnPhilip'),
+	(SELECT 68000.00);
+INSERT INTO user_accounts(user_id,balance_amount) SELECT
+	(SELECT user_id FROM users WHERE login_name = 'BalaMurugan'),
+	(SELECT 69000.00);
+INSERT INTO user_accounts(user_id,balance_amount) SELECT
+	(SELECT user_id FROM users WHERE login_name = 'DonyFranklin'),
+	(SELECT 41000.00);
+INSERT INTO user_accounts(user_id,balance_amount) SELECT
+	(SELECT user_id FROM users WHERE login_name = 'Rajesh'),
+	(SELECT 63000.00);
+INSERT INTO user_accounts(user_id,balance_amount) SELECT
+	(SELECT user_id FROM users WHERE login_name = 'Saraswathy'),
+	(SELECT 72000.00);
+INSERT INTO user_accounts(user_id,balance_amount) SELECT
+	(SELECT user_id FROM users WHERE login_name = 'Subashini'),
+	(SELECT 53000.00);
+INSERT INTO user_accounts(user_id,balance_amount) SELECT
+	(SELECT user_id FROM users WHERE login_name = 'Nikhila'),
+	(SELECT 30000.00);
+	
+INSERT INTO bank_accounts(type_name,rate_of_interest,year_launched) VALUES ('Savings Account',4.5,1940);
+INSERT INTO bank_accounts(type_name,rate_of_interest,year_launched) VALUES ('Current Account',4.5,1960);
+INSERT INTO bank_accounts(type_name,rate_of_interest,year_launched) VALUES ('Fixed Deposit Account',4.5,1950);
+INSERT INTO bank_accounts(type_name,rate_of_interest,year_launched) VALUES ('Home Loan Account',9.1,1960);
+INSERT INTO bank_accounts(type_name,rate_of_interest,year_launched) VALUES ('Personal Loan Account',12.5,1970);
+
+
