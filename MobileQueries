@@ -1,5 +1,22 @@
 USE db_cca_bank_orm;
 
+CREATE TABLE brands(
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  brand_name VARCHAR(30),
+  description VARCHAR(100)
+);
+
+CREATE TABLE mobiles (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  mobile_model VARCHAR(30),
+  mobile_price DECIMAL(10,2),
+  year_launched INT,
+  mobile_brand_id BIGINT,
+  FOREIGN KEY (mobile_brand_id) REFERENCES brands (id)
+);
+
+
+
  SELECT * FROM brands;
  SELECT * FROM mobiles;
 
